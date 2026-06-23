@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>외주 정산센터 사용 가이드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f2f2f7;
+    --surface: #ffffff;
+    --accent: #007aff;
+    --green: #34c759;
+    --orange: #ff6b00;
+    --yellow: #ff9500;
+    --red: #ff3b30;
+    --purple: #5856d6;
+    --text: #1d1d1f;
+    --text2: #6e6e73;
+    --border: #e0e0e5;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 15px; line-height: 1.7; }
+
+  .hero {
+    background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+    color: #fff; padding: 52px 40px 44px; text-align: center;
+  }
+  .hero h1 { font-size: 26px; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 6px; }
+  .hero p { font-size: 14px; opacity: 0.82; }
+
+  .toc {
+    background: var(--surface); border-bottom: 1px solid var(--border);
+    padding: 14px 32px; display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  }
+  .toc a {
+    text-decoration: none; font-size: 12px; font-weight: 600; color: var(--text2);
+    padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); transition: all 0.15s; white-space: nowrap;
+  }
+  .toc a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 44px 24px 80px; }
+
+  .section { margin-bottom: 52px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border);
+  }
+  .section-num {
+    width: 30px; height: 30px; background: var(--accent); color: #fff;
+    border-radius: 9px; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .section-num.green { background: var(--green); }
+  .section-num.orange { background: var(--orange); }
+  .section-num.purple { background: var(--purple); }
+  .section-num.yellow { background: var(--yellow); }
+  .section-num.red { background: var(--red); }
+  .section-title { font-size: 19px; font-weight: 700; letter-spacing: -0.03em; }
+
+  .card {
+    background: var(--surface); border-radius: 14px; padding: 22px 24px;
+    margin-bottom: 14px; border: 1px solid var(--border);
+  }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+
+  .item { margin-bottom: 18px; }
+  .item:last-child { margin-bottom: 0; }
+  .item-label {
+    font-size: 13px; font-weight: 700; margin-bottom: 5px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .item-desc { font-size: 13px; color: var(--text2); line-height: 1.65; padding-left: 2px; }
+
+  /* 카톡 공지문용 서브카드 및 체크리스트 스타일 추가 */
+  .card-sub {
+    background: #f8f9fa; border-radius: 10px; padding: 16px; margin-top: 12px; border: 1px solid var(--border);
+  }
+  .checklist { list-style: none; padding: 0; margin: 0; }
+  .checklist li {
+    position: relative; padding-left: 24px; font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 8px;
+  }
+  .checklist li:last-child { margin-bottom: 0; }
+  .checklist li::before {
+    content: "✓"; position: absolute; left: 4px; top: 0; color: var(--green); font-weight: 700; font-size: 14px;
+  }
+
+  .tip {
+    border-radius: 11px; padding: 14px 16px; margin: 14px 0;
+    font-size: 13px; line-height: 1.65; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .tip.blue { background: rgba(0,122,255,0.07); border-left: 3px solid var(--accent); }
+  .tip.green { background: rgba(52,199,89,0.07); border-left: 3px solid var(--green); }
+  .tip.orange { background: rgba(255,107,0,0.08); border-left: 3px solid var(--orange); }
+  .tip.red { background: rgba(255,59,48,0.07); border-left: 3px solid var(--red); }
+  .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .tip strong { display: block; margin-bottom: 3px; font-size: 13px; color: var(--text); }
+
+  .badge {
+    display: inline-block; padding: 2px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; margin: 1px;
+  }
+  .bg { background: rgba(0,122,255,0.1); color: var(--accent); }
+  .gg { background: rgba(52,199,89,0.12); color: var(--green); }
+  .og { background: rgba(255,107,0,0.1); color: var(--orange); }
+  .pp { background: rgba(88,86,214,0.1); color: var(--purple); }
+  .rr { background: rgba(255,59,48,0.1); color: var(--red); }
+
+  .btn-demo {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 11px; border-radius: 9px; font-size: 12px; font-weight: 600; margin: 2px;
+  }
+  .btn-blue { background: var(--accent); color: #fff; }
+  .btn-green { background: rgba(52,199,89,0.12); color: var(--green); border: 1px solid rgba(52,199,89,0.25); }
+  .btn-orange { background: var(--orange); color: #fff; }
+  .btn-purple { background: var(--purple); color: #fff; }
+  .btn-ghost { background: #f5f5f7; color: var(--text2); border: 1px solid var(--border); }
+
+  kbd {
+    background: #f0f0f5; border: 1px solid var(--border); border-radius: 5px;
+    padding: 1px 7px; font-size: 12px; font-weight: 600; color: var(--text); font-family: monospace;
+  }
+
+  code {
+    background: #f5f5f7; padding: 2px 5px; border-radius: 4px; font-size: 12px; font-family: monospace; color: var(--red); border: 1px solid var(--border);
+  }
+
+  mark { background: rgba(255,149,0,0.15); color: var(--text); border-radius: 3px; padding: 1px 4px; }
+
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  .flow {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 10px;
+  }
+  .flow-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 9px; padding: 7px 13px; font-size: 12px; font-weight: 600;
+  }
+  .flow-arrow { color: var(--text2); font-size: 13px; }
+
+  .footer { text-align: center; padding: 28px; font-size: 12px; color: var(--text2); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>⬡ 외주 정산센터 사용 가이드</h1>
+  <p>월별 외주 정산 업무 처리 가이드</p>
+</div>
+
+<nav class="toc">
+  <a href="#s1">업체 리스트</a>
+  <a href="#s2">상세내역</a>
+  <a href="#s3">외주사 비교</a>
+  <a href="#s4">저장 구조</a>
+  <a href="#s5">카톡 공지문</a>
+  <a href="#s6">주의사항</a>
+</nav>
+
+<div class="container">
+
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-num green">1</div>
+      <div class="section-title">좌측 업체 리스트</div>
+    </div>
+
+    <div class="card">
+      <div class="item">
+        <div class="item-label">✅ 공지 / 확정 / 계산서 체크</div>
+        <div class="item-desc">
+          각 업체 행의 체크박스 3개로 진행 상태를 관리합니다.<br>
+          <span class="badge bg">공지</span> 카톡 공지 완료 &nbsp;
+          <span class="badge gg">확정</span> 금액 확정 완료 &nbsp;
+          <span class="badge og">계산서</span> 세금계산서 수령 완료<br><br>
+          3개 모두 체크되면 해당 업체 행이 <span style="color:var(--green); font-weight:600;">연한 초록색</span>으로 변합니다.<br>
+          열 헤더를 클릭하면 전체 업체를 일괄 체크/해제할 수 있습니다.
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">💰 확정금액</div>
+        <div class="item-desc">
+          업체별 최종 정산 금액을 입력하는 칸입니다. 숫자 입력 시 콤마 자동 포함.<br><br>
+          상단 <strong>확정금액 ⚡ 열 헤더를 클릭</strong>하면 모든 업체의 기본 정산금액이 확정금액 칸에 한 번에 채워집니다. (지방외주는 정산금액 자동 복사, 수도권 수기는 입력되어 있던 금액 기준)<br><br>
+          <mark>확정금액을 입력하고 확정 체크를 켜면, 외주사 비교 탭의 기준 금액이 확정금액으로 바뀝니다.</mark>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">📤 하단 복사 버튼</div>
+        <div class="item-desc">
+          <span class="btn-demo btn-ghost">업체명 복사</span>
+          <span class="btn-demo btn-ghost">건수 복사</span>
+          <span class="btn-demo btn-ghost">확정금액 복사</span><br><br>
+          전체 업체 데이터를 줄바꿈 형식으로 클립보드에 복사합니다. 엑셀에 바로 붙여넣기 가능합니다.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label" style="color:var(--orange)">🟠 수도권 업체 추가</div>
+        <div class="item-desc">
+          리스트 하단 입력창에서 업체명을 직접 입력하거나, 엑셀에서 <strong>업체명 / 건수 / 금액</strong> 열을 복사해 대량 붙여넣기(<kbd>Ctrl+V</kbd>)할 수 있습니다.<br><br>
+          수도권 업체는 마감 저장 버튼을 눌러야 시트에 반영됩니다. 삭제는 업체명 옆 ✕ 버튼으로 가능합니다. (수도권은 수정할일 없긴할듯!)
+        </div>
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-icon">💡</div>
+      <div>
+        <strong>초록색 합계 금액 클릭 시 '순수 숫자 복사'</strong>
+        업체 리스트에 표시된 정산금액 숫자를 마우스로 클릭하면, 콤마(,)가 자동으로 제외된 <code>순수 숫자</code>가 클립보드에 즉시 복사됩니다. 확정금액이나 다른곳에 금액을 수기 입력할 때 활용하세요.
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-num purple">2</div>
+      <div class="section-title">📋 상세내역 탭</div>
+    </div>
+
+    <div class="card">
+      <div class="item">
+        <div class="item-label">기안용 복사</div>
+        <div class="item-desc">
+          <span class="btn-demo btn-blue">📎 기안용 복사</span> 버튼을 누르면 해당 업체의 건별 내역 전체가 탭 구분 형식으로 복사됩니다. 엑셀이나 결재 문서에 바로 붙여넣기 가능합니다.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">계산서 요청 문자 복사</div>
+        <div class="item-desc">
+          상단 <strong>합계금액 영역을 클릭</strong>하면 해당 업체에 보낼 세금계산서 요청 문자가 자동 생성되어 복사됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="tip orange">
+      <div class="tip-icon">⚠️</div>
+      <div>
+        <strong>기안용 복사 전 반드시 확인</strong>
+        상세내역에는 구글 시트에서 <mark>완료(TRUE) 처리된 건만</mark> 불러옵니다. 기안서 작성 전에 해당 월 말일까지의 모든 건이 시트에서 완료 처리되어 있는지 먼저 확인하세요. 완료 처리가 안 된 건은 표시되지 않습니다.
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-num orange">3</div>
+      <div class="section-title">⚖️ 외주사 합계 비교 탭</div>
+    </div>
+
+    <div class="card">
+      <div class="item">
+        <div class="item-label">외주사 내역 입력 방법</div>
+        <div class="item-desc">
+          외주사에서 받은 정산 내역 엑셀에서 <strong>상호명 / 금액 2열</strong>을 복사한 뒤, 상단 붙여넣기 입력창에 <kbd>Ctrl+V</kbd>하면 오른쪽 패널에 자동으로 행이 채워집니다.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">자동 매칭</div>
+        <div class="item-desc">
+          금액과 업체명이 일치하는 건은 <span style="color:var(--green); font-weight:700;">초록색</span>으로 자동 표시됩니다. 시스템이 자체적으로 상호명 속 노이즈 단어(‘(주)’, ‘주식회사’ 등)를 제거하고 유사도 검사를 실행합니다.<br><br>
+          텍스트가 다른것들은 좌측 패널에서 수동으로 <strong>[일치] 체크박스</strong>를 직접 클릭해 처리할 수 있습니다.<br><br>
+          상단에 <strong>아샵 합계(A) / 외주 청구(B) / 차액(A-B)</strong>이 실시간으로 표시되며, 차액이 0원이면 <span style="color:var(--green); font-weight:600;">✓ 금액 일치</span>로 바뀝니다.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">아샵 데이터 수정</div>
+        <div class="item-desc">
+          왼쪽 패널에서 <strong>금액을 직접 클릭해 수정</strong>하거나 메모를 추가할 수 있습니다. 수정 내역이 발생한 행은 <span style="color:var(--orange); font-weight:600;">주황색 배경</span>으로 실시간 변환됩니다.<br><br>
+          수정 후 <span class="btn-demo btn-orange">💾 아샵 데이터 일괄 저장</span>을 눌러야 스프레드시트 데이터에 반영됩니다.<br><br>
+          <mark>이 버튼을 누르지 않으면 시트에 반영되지 않습니다.</mark>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-icon">⌨️</div>
+      <div>
+        <strong>키보드 Enter 단축키 안내 (외주사 내역 입력 패널)</strong>
+        수기 입력 창에서 상호명이나 금액을 작성한 뒤 <kbd>Enter</kbd>를 누르면 아래 행의 입력창으로 포커스가 자동 이동합니다. 특히 <strong>마지막 행의 상호명 칸에서 엔터를 누르면 새로운 입력 행이 자동으로 추가되어 마우스 없이 빠른 타이핑이 가능합니다.</strong>
+      </div>
+    </div>
+
+    <div class="tip orange">
+      <div class="tip-icon">⚠️</div>
+      <div>
+        <strong>외주사 비교 시점 주의</strong>
+        비교 작업은 보통 월말 마감 직전에 진행하므로, 이 시점에는 아직 완료 처리가 안 된 건이 존재할 수 있습니다. 외주사가 청구한 건이 아샵 데이터에 없다면 시트에서 완료 처리가 빠진 건인지 먼저 확인하세요.
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-icon">💡</div>
+      <div>
+        <strong>확정 체크 시 기준 금액 변경</strong>
+        좌측 리스트에서 해당 업체의 <span class="badge gg">확정</span> 체크를 켜면, 비교 기준이 아샵 합계가 아닌 <strong>확정금액으로 자동 전환됩니다. 확정금액을 별도로 입력한 경우에 활용하세요.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">저장 구조</div>
+    </div>
+
+    <div class="card">
+      <div class="item">
+        <div class="item-label"><span class="btn-demo btn-purple">💾 마감 저장</span> → 정산마감_list 시트에 반영</div>
+        <div class="item-desc">
+          체크박스(공지/확정/계산서) · 확정금액 · 메모 · 수도권 업체 목록이 저장됩니다.<br>
+          <strong>지방외주설치건_list부분은 건드리지 않습니다.</strong>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label"><span class="btn-demo btn-orange">💾 아샵 데이터 일괄 저장</span> → 지방외주설치건_list 시트에 반영</div>
+        <div class="item-desc">
+          외주사 비교 탭에서 수정한 금액과 메모가 원본 RAW 시트에 직접 덮어씌워집니다.<br>
+          <strong>수정 이력이 남지 않으므로 신중하게 사용하세요.</strong>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">🔄 새로고침</div>
+        <div class="item-desc">
+          시트의 최신 데이터를 다시 불러옵니다. <mark>저장하지 않은 수정 내용은 모두 사라지니</mark> 저장 후 사용하세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-num yellow">5</div>
+      <div class="section-title">카톡 공지문 복사</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💬 사용 방법</div>
+      <p style="font-size:13px; color:var(--text2); margin-bottom:12px;">상단 <span class="btn-demo btn-orange" style="background:var(--orange);">💬 카톡 공지</span> 버튼을 누르면 해당 정산월 기준으로 작성된 공지문이 클립보드에 복사됩니다.</p>
+      
+      <div class="card-sub">
+        <ul class="checklist">
+          <li>설치 건 리스트 제출 요청 안내 문구 포함</li>
+          <li>계산서 발행 시 유의사항 자동 포함 (말일 발행, 품목명, 발행 메일)</li>
+          <li>월 정보가 자동으로 반영되어 매달 수정 불필요</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-num red">6</div>
+      <div class="section-title">주의사항</div>
+    </div>
+
+    <div class="tip red">
+      <div class="tip-icon">🔴</div>
+      <div>
+        <strong>동시 접속 충돌</strong>
+        같은 달을 두 명이 동시에 수정하다 저장하면 마지막 저장 기준으로 덮어씌워집니다. 상단에 주황색 알림이 뜨면 저장 전 확인하고 작업하세요.
+      </div>
+    </div>
+
+    <div class="tip orange">
+      <div class="tip-icon">⚠️</div>
+      <div>
+        <strong>완료 처리 기준</strong>
+        구글 시트에서 완료(TRUE) 체크가 된 건만 정산센터에 집계됩니다. 기안용 복사나 합계 금액이 맞지 않다면 시트의 완료 처리 여부를 먼저 확인하세요.
+      </div>
+    </div>
+
+    <div class="tip blue">
+      <div class="tip-icon">📌</div>
+      <div>
+        <strong>월별 정산 순서</strong>
+        <div class="flow">
+          <div class="flow-item">카톡 공지 발송</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">외주사 리스트 수신</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">외주사 비교 검수</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">계산서 요청</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-item">마감 저장</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">지방외주 정산센터 사용 가이드 · 사내 직원용</div>
+
+</body>
+</html>
