@@ -74,7 +74,6 @@
   }
   .item-desc { font-size: 13px; color: var(--text2); line-height: 1.65; padding-left: 2px; }
 
-  /* 카톡 공지문용 서브카드 및 체크리스트 스타일 추가 */
   .card-sub {
     background: #f8f9fa; border-radius: 10px; padding: 16px; margin-top: 12px; border: 1px solid var(--border);
   }
@@ -157,10 +156,12 @@
   <a href="#s4">저장 구조</a>
   <a href="#s5">카톡 공지문</a>
   <a href="#s6">주의사항</a>
+  <a href="#s7">Q&A</a>
 </nav>
 
 <div class="container">
 
+  <!-- 1. 업체 리스트 -->
   <div class="section" id="s1">
     <div class="section-header">
       <div class="section-num green">1</div>
@@ -218,6 +219,7 @@
     </div>
   </div>
 
+  <!-- 2. 상세내역 탭 -->
   <div class="section" id="s2">
     <div class="section-header">
       <div class="section-num purple">2</div>
@@ -249,6 +251,7 @@
     </div>
   </div>
 
+  <!-- 3. 외주사 합계 비교 탭 -->
   <div class="section" id="s3">
     <div class="section-header">
       <div class="section-num orange">3</div>
@@ -307,6 +310,7 @@
     </div>
   </div>
 
+  <!-- 4. 저장 구조 -->
   <div class="section" id="s4">
     <div class="section-header">
       <div class="section-num">4</div>
@@ -339,6 +343,7 @@
     </div>
   </div>
 
+  <!-- 5. 카톡 공지문 복사 -->
   <div class="section" id="s5">
     <div class="section-header">
       <div class="section-num yellow">5</div>
@@ -359,6 +364,7 @@
     </div>
   </div>
 
+  <!-- 6. 주의사항 -->
   <div class="section" id="s6">
     <div class="section-header">
       <div class="section-num red">6</div>
@@ -380,22 +386,61 @@
         구글 시트에서 완료(TRUE) 체크가 된 건만 정산센터에 집계됩니다. 기안용 복사나 합계 금액이 맞지 않다면 시트의 완료 처리 여부를 먼저 확인하세요.
       </div>
     </div>
+  </div>
 
-    <div class="tip blue">
-      <div class="tip-icon">📌</div>
-      <div>
-        <strong>월별 정산 순서</strong>
-        <div class="flow">
-          <div class="flow-item">카톡 공지 발송</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-item">외주사 리스트 수신</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-item">외주사 비교 검수</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-item">계산서 요청</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-item">마감 저장</div>
+  <!-- 7. 자주 묻는 질문 (Q&A) -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-num purple">7</div>
+      <div class="section-title">자주 묻는 질문 (Q&A)</div>
+    </div>
+
+    <div class="card">
+      <div class="item">
+        <div class="item-label">Q. 외주사 엑셀을 붙여넣었는데 초록색 매칭이 안 되는 건이 있어요.</div>
+        <div class="item-desc">
+          금액이나 상호명이 시스템 기준치 이상 다르면 자동 매칭이 스킵됩니다. 이럴 때는 아샵 데이터 우측 끝에 있는 <strong>[일치] 체크박스</strong>를 직접 클릭해 수동으로 매칭(초록색 전환)해 주시면 됩니다.
         </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">Q. 시트에서 완료(TRUE) 처리를 방금 했는데 정산센터에 안 보여요.</div>
+        <div class="item-desc">
+          화면 상단 왼쪽의 <strong>[🔄 새로고침]</strong> 버튼을 누르면 구글 시트의 최신 데이터를 실시간으로 다시 긁어옵니다. 단, 임시로 화면에서 수정 중이던 내역은 사라지므로 주의하세요.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">Q. 외주사 비교 창에서 아샵 금액을 잘못 고쳐서 주황색이 됐는데 원상복구 되나요?</div>
+        <div class="item-desc">
+          '일괄 저장' 버튼을 누르기 전이라면 안전합니다. 아샵 정산 데이터 타이틀 옆의 <strong>[↺] (되돌리기) 버튼</strong>을 누르면 해당 업체의 데이터가 수정 전 원본 상태로 복구됩니다.
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="item">
+        <div class="item-label">Q. [확정] 체크박스를 켰는데 비교 탭 상단 기준 금액(A)이 안 바뀌어요.</div>
+        <div class="item-desc">
+          오른쪽 <strong>'확정금액' 입력창에 0원보다 큰 최종 금액이 먼저 입력</strong>되어 있어야 작동합니다. 금액 칸을 먼저 채운 뒤 체크박스를 켜 주세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 월별 정산 순서 -->
+  <div class="tip blue">
+    <div class="tip-icon">📌</div>
+    <div>
+      <strong>월별 정산 순서</strong>
+      <div class="flow">
+        <div class="flow-item">카톡 공지 발송</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">외주사 리스트 수신</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">외주사 비교 검수</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">계산서 요청</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item">마감 저장</div>
       </div>
     </div>
   </div>
